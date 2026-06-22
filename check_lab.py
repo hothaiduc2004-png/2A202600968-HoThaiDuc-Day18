@@ -58,7 +58,8 @@ def run_tests() -> tuple[int, int]:
             [sys.executable, "-m", "pytest", "tests/", "-v", "--tb=no", "-q"],
             capture_output=True, text=True, timeout=120,
         )
-        lines = result.stdout.strip().split("\n")
+        output = "\n".join([result.stdout.strip(), result.stderr.strip()]).strip()
+        lines = [line for line in output.split("\n") if line.strip()]
         summary = lines[-1] if lines else ""
         # Parse "X passed, Y failed" or "X passed"
         passed = total = 0
